@@ -1,0 +1,81 @@
+{
+  "targetName" : "VulkanApp",
+  "mode" : "EXE",
+  
+  "public_include" : [
+
+],
+  "interface_include" : [
+
+],
+  "private_include" : [
+
+],
+  
+  "public_source" : [
+
+],
+  "interface_source" : [
+
+],
+  "private_source" : [
+"D:/Documents/MyProjects/Renderer-Learning/ReEngine/src/App/VulkanDemo/VulkanApp/FirstTriangleApplication.cpp",
+"D:/Documents/MyProjects/Renderer-Learning/ReEngine/src/App/VulkanDemo/VulkanApp/FirstTriangleApplication.h",
+"D:/Documents/MyProjects/Renderer-Learning/ReEngine/src/App/VulkanDemo/VulkanApp/main.cpp"
+],
+  
+  "public_compile_options" : [
+
+],
+  "interface_compile_options" : [
+
+],
+  "private_compile_options" : [
+
+],
+  
+  "public_link_options" : [
+
+],
+  "interface_link_options" : [
+
+],
+  "private_link_options" : [
+
+],
+  
+  "public_pch" : [
+
+],
+  "interface_pch" : [
+
+],
+  "private_pch" : [
+
+],
+  
+  "public_lib" : [
+
+],
+  "interface_lib" : [
+
+],
+  "private_lib" : [
+
+],
+  
+  "public_define" : [
+
+],
+  "interface_define" : [
+
+],
+  "private_define" : [
+
+],
+  
+  "add_options" : [
+
+]
+}
+
