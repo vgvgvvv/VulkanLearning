@@ -27,6 +27,7 @@ private:
 	GLFWwindow* window;
 
 private:
+	// 创建VK Instance
 	void CreateInstance();
 	bool CheckValidationLayerSupport();
 
@@ -42,6 +43,13 @@ private:
 	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
 private:
-	VkInstance instance;
-	VkDebugUtilsMessengerEXT debugMessenger;
+
+	// 获取物理设备
+	void PickPhysicalDevice();
+	bool IsDeviceSuitable(VkPhysicalDevice device);
+
+private:
+	VkInstance instance; // Vk实例
+	VkDebugUtilsMessengerEXT debugMessenger; // Debug 代理
+	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // 物理设备
 };
