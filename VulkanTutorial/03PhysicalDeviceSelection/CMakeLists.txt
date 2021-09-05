@@ -2,7 +2,7 @@
 
 
 
-set(targetName VulkanTutorial_ValidationLayers)
+set(targetName VulkanTutorial_PhysicalDeviceSelection)
 ReMake_AddTarget(
         TARGET_NAME ${targetName}
         MODE EXE

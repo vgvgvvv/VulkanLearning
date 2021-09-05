@@ -1,7 +1,9 @@
 #include <stdexcept>
 
 #include "FirstTriangleApplication.h"
+#include "QueueFamily.h"
 #include "vulkan/vulkan.h"
+
 
 // 获取物理设备
 void FirstTriangleApplication::PickPhysicalDevice()
@@ -38,12 +40,42 @@ void FirstTriangleApplication::PickPhysicalDevice()
 
 bool FirstTriangleApplication::IsDeviceSuitable(VkPhysicalDevice device)
 {
-	VkPhysicalDeviceProperties deviceProperties;
-	vkGetPhysicalDeviceProperties(device, &deviceProperties);
-	VkPhysicalDeviceFeatures deviceFeatures;
-	vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+	// 通过以下方式来获取相应的设备，但是目前我们真正需要获取的是有相应设备队列的设备
+	// VkPhysicalDeviceProperties deviceProperties;
+	// vkGetPhysicalDeviceProperties(device, &deviceProperties);
+	// VkPhysicalDeviceFeatures deviceFeatures;
+	// vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+	//
+	// return deviceProperties.deviceType == 
+	// 	VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
+	// 	deviceFeatures.geometryShader;
+
+	auto family = FindQueueFamilies(device);
+	return family.IsComplete();
+}
+
+// 获取用于物理设备的队列
+QueueFamilyIndices FirstTriangleApplication::FindQueueFamilies(VkPhysicalDevice device)
+{
+	QueueFamilyIndices indices;
+
+	// 获取Queue Family属性
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for(const auto& queueFamily : queueFamilies)
+	{
+		// 需要支持图形
+		if(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+		{
+			indices.graphicsFamily = i;
+		}
+		i++;
+	}
 	
-	return deviceProperties.deviceType == 
-		VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
-		deviceFeatures.geometryShader;
+	return indices;
 }

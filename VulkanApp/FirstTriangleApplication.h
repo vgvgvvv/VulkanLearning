@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+#include "QueueFamily.h"
 #include "GLFW/glfw3.h"
 #include "vulkan/vulkan.h"
 
@@ -47,6 +48,7 @@ private:
 	// 获取物理设备
 	void PickPhysicalDevice();
 	bool IsDeviceSuitable(VkPhysicalDevice device);
+	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 
 private:
 	VkInstance instance; // Vk实例
