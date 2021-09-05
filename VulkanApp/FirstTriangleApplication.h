@@ -26,6 +26,7 @@ private:
 
 private:
 	void CreateInstance();
+	bool CheckValidationLayerSupport();
 
 private:
 	VkInstance instance;

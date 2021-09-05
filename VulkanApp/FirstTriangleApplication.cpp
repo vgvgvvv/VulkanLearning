@@ -9,6 +9,16 @@
 #define WIDTH	800
 #define HEIGHT	600
 
+const std::vector<const char*> validationLayers = {
+	"VK_LAYER_LUNARG_standard_validation"
+};
+
+#ifdef NDEBUG
+const bool enableValidationLayers = false;
+#else
+const bool enableValidationLayers = true;
+#endif
+
 void FirstTriangleApplication::InitWindow()
 {
 	glfwInit();
@@ -44,6 +54,11 @@ void FirstTriangleApplication::CleanUp()
 
 void FirstTriangleApplication::CreateInstance()
 {
+	if(enableValidationLayers && !CheckValidationLayerSupport())
+	{
+		throw std::runtime_error("validation layers requested, but not available!");
+	}
+	
 	// Program Info
 	// 用于部分驱动对于特定引擎或者程序的优化
 	VkApplicationInfo appInfo = {};
@@ -73,7 +88,6 @@ void FirstTriangleApplication::CreateInstance()
 		std::cout << "\t" << extension.extensionName << std::endl;
 	}
 	
-	
 	// 获取窗口系统扩展
 	uint32_t glfwExtensionCount = 0;
 	const char** glfwExtensions;
@@ -92,4 +106,33 @@ void FirstTriangleApplication::CreateInstance()
 		throw std::runtime_error("failed to create instance");
 	}
 	
+}
+
+bool FirstTriangleApplication::CheckValidationLayerSupport()
+{
+	uint32_t layerCount;
+	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+	std::vector<VkLayerProperties> availableLayers(layerCount);
+	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+	// 遍历我们需要的每个Layer查看是否存在
+	for(const char* layerName : validationLayers)
+	{
+		bool layerFound = false;
+		for(const auto& layerProperies : availableLayers)
+		{
+			if(strcmp(layerName, layerProperies.layerName) == 0)
+			{
+				layerFound = true;
+				break;
+			}
+		}
+
+		if(!layerFound)
+		{
+			return false;
+		}
+	}
+	return true;
 }
