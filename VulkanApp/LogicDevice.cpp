@@ -28,11 +28,12 @@ void FirstTriangleApplication::CreateLogicDevice()
 		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 		queueCreateInfo.queueFamilyIndex = queueFamily;
 		queueCreateInfo.pQueuePriorities = &queuePriority;
+		queueCreateInfo.queueCount = 1;
 		queueCreateInfos.push_back(queueCreateInfo);
 	}
 	
 	// 指定功能集
-	VkPhysicalDeviceFeatures deviceFeatures;
+	VkPhysicalDeviceFeatures deviceFeatures{};
 
 	// 创建设备
 	VkDeviceCreateInfo createInfo{};
@@ -41,6 +42,7 @@ void FirstTriangleApplication::CreateLogicDevice()
 	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 
 	createInfo.pEnabledFeatures = &deviceFeatures;
+	createInfo.enabledExtensionCount = 0;
 	
 	// 新的Vulkan已经忽略了设备层的校验层，但是我们已经对老版本Vulkan进行兼容
 	if (enableValidationLayers)
