@@ -1,0 +1,5 @@
+/.vs/
+*.Target.json
+CustomModuleList.txt
+/out/
+/binary/
