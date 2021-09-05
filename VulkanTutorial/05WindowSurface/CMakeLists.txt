@@ -2,11 +2,10 @@
 
 
 
-set(targetName VulkanApp)
+set(targetName VulkanTutorial_WindowSurface)
 ReMake_AddTarget(
         TARGET_NAME ${targetName}
         MODE EXE
-        DEFINE VK_VERSION_1_0
 )
 
 ReMake_StartUse()

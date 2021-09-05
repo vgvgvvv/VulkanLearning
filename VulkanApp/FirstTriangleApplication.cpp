@@ -7,10 +7,9 @@
 
 #include "GLFW/glfw3.h"
 
+
 #define WIDTH	800
 #define HEIGHT	600
-
-
 
 
 void FirstTriangleApplication::InitWindow()
@@ -26,6 +25,9 @@ void FirstTriangleApplication::InitVulkan()
 {
 	CreateInstance();
 	SetupDebugCallback();
+	CreateSurface();
+	PickPhysicalDevice();
+	CreateLogicDevice();
 }
 
 void FirstTriangleApplication::MainLoop()
@@ -45,6 +47,8 @@ void FirstTriangleApplication::CleanUp()
 		// Ïú»ÙDebug Messenger 
 		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 	}
+
+	vkDestroySurfaceKHR(instance, surface, nullptr);
 	
 	// Ïú»ÙÊµÀý
 	vkDestroyInstance(instance, nullptr);

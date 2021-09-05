@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
 
-#include "QueueFamily.h"
-#include "GLFW/glfw3.h"
 #include "vulkan/vulkan.h"
 
 
@@ -25,11 +23,13 @@ private:
 	void CleanUp();
 
 private:
-	GLFWwindow* window;
+	class GLFWwindow* window;
 
 private:
 	// 创建VK Instance
 	void CreateInstance();
+	VkInstance instance = VK_NULL_HANDLE; // Vk实例
+
 	bool CheckValidationLayerSupport();
 
 	// 获取我们所需的扩展
@@ -43,6 +43,8 @@ private:
 	// 销毁Debug Messenger
 	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
+	VkDebugUtilsMessengerEXT debugMessenger = VK_NULL_HANDLE; // Debug 代理
+
 private:
 
 	// 获取物理设备
@@ -50,17 +52,21 @@ private:
 	// 物理设备是否可用
 	bool IsDeviceSuitable(VkPhysicalDevice device);
 	// 找到队列族
-	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+	class QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+
+	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // 物理设备
 
 private:
 	// 创建逻辑设备
 	void CreateLogicDevice();
 
-private:
-	VkInstance instance = VK_NULL_HANDLE; // Vk实例
-	VkDebugUtilsMessengerEXT debugMessenger = VK_NULL_HANDLE; // Debug 代理
-	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // 物理设备
-
 	VkDevice device = VK_NULL_HANDLE; // 逻辑设备
-	VkQueue graphicsQueue;
+	VkQueue graphicsQueue; // 逻辑图形设备队列
+
+private:
+	// 创建窗口Surface
+	void CreateSurface();
+
+	VkSurfaceKHR surface; // 窗口Surface
+	VkQueue presentQueue; // 显示队列
 };

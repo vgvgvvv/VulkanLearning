@@ -3,6 +3,8 @@
 #include "FirstTriangleApplication.h"
 #include "VulkanDebug.h"
 
+#include "GLFW/glfw3.h"
+
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	// 第一个参数是严重性：

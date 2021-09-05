@@ -74,6 +74,22 @@ QueueFamilyIndices FirstTriangleApplication::FindQueueFamilies(VkPhysicalDevice 
 		{
 			indices.graphicsFamily = i;
 		}
+
+		// 需要窗口支持
+		VkBool32 presentSupport = false;
+		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+
+		if(presentSupport)
+		{
+			indices.presentFamily = i;
+		}
+
+		// 以上都支持的情况下退出
+		if(indices.IsComplete())
+		{
+			break;
+		}
+		
 		i++;
 	}
 	
