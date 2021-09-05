@@ -1,5 +1,9 @@
 #include "FirstTriangleApplication.h"
 
+#include <iostream>
+#include <stdexcept>
+#include <vector>
+
 #include "GLFW/glfw3.h"
 
 #define WIDTH	800
@@ -29,7 +33,12 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
+	// 销毁实例
+	vkDestroyInstance(instance, nullptr);
+	
+	// 销毁窗口
 	glfwDestroyWindow(window);
+	// 销毁Glfw
 	glfwTerminate();
 }
 
@@ -50,5 +59,37 @@ void FirstTriangleApplication::CreateInstance()
 	VkInstanceCreateInfo createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	createInfo.pApplicationInfo = &appInfo;
+
+	// 输出可用的Vulkan扩展
+	uint32_t extensionCount = 0;
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount
+		, nullptr);
+	std::vector<VkExtensionProperties> extensions(extensionCount);
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+
+	std::cout << "available extensions: " << std::endl;
+	for(const auto& extension : extensions)
+	{
+		std::cout << "\t" << extension.extensionName << std::endl;
+	}
+	
+	
+	// 获取窗口系统扩展
+	uint32_t glfwExtensionCount = 0;
+	const char** glfwExtensions;
+
+	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+	createInfo.enabledExtensionCount = glfwExtensionCount;
+	createInfo.ppEnabledExtensionNames = glfwExtensions;
+
+	//系统校验层数量
+	createInfo.enabledLayerCount = 0;
+
+	// 最终创建实例
+	// 创建信息	+ 分配器函数 + 储存Instance的指针
+	if(vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+	{
+		throw std::runtime_error("failed to create instance");
+	}
 	
 }
