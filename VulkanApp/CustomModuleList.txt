@@ -1,3 +1,0 @@
-VulkanApp=>D:/Documents/MyProjects/Renderer-Learning/ReEngine/external/thirdpart/src/glm/Gml.CustomModule.json
-VulkanApp=>D:/Documents/MyProjects/Renderer-Learning/ReEngine/external/thirdpart/src/glfw-3.34/Glfw.CustomModule.json
-VulkanApp=>D:/Documents/MyProjects/Renderer-Learning/ReEngine/external/thirdpart/src/vulkan/Vulkan.CustomModule.json
