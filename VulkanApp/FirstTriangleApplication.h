@@ -47,11 +47,20 @@ private:
 
 	// 获取物理设备
 	void PickPhysicalDevice();
+	// 物理设备是否可用
 	bool IsDeviceSuitable(VkPhysicalDevice device);
+	// 找到队列族
 	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 
 private:
-	VkInstance instance; // Vk实例
-	VkDebugUtilsMessengerEXT debugMessenger; // Debug 代理
+	// 创建逻辑设备
+	void CreateLogicDevice();
+
+private:
+	VkInstance instance = VK_NULL_HANDLE; // Vk实例
+	VkDebugUtilsMessengerEXT debugMessenger = VK_NULL_HANDLE; // Debug 代理
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // 物理设备
+
+	VkDevice device = VK_NULL_HANDLE; // 逻辑设备
+	VkQueue graphicsQueue;
 };

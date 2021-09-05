@@ -38,6 +38,8 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
+	vkDestroyDevice(device, nullptr);
+	
 	if(enableValidationLayers)
 	{
 		// Ïú»ÙDebug Messenger 

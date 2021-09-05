@@ -6,7 +6,7 @@ struct QueueFamilyIndices
 {
 	std::optional<uint32_t> graphicsFamily;
 
-	bool IsCompelete() const
+	bool IsComplete() const
 	{
 		return graphicsFamily.has_value();
 	}
