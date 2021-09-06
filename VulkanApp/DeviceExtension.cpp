@@ -3,12 +3,9 @@
 
 
 #include "FirstTriangleApplication.h"
-
+#include "DeviceExtension.h"
 #include "vulkan/vulkan.h"
 
-const std::vector<const char*> FirstTriangleApplication::deviceExtensions = {
-	VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
 
 // 检查是否支持设备扩展
 bool FirstTriangleApplication::CheckDeviceExtensionSupport(VkPhysicalDevice device)

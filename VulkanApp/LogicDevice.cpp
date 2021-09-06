@@ -5,6 +5,7 @@
 #include "QueueFamily.h"
 #include "VulkanDebug.h"
 #include "vulkan/vulkan.h"
+#include "DeviceExtension.h"
 
 
 void FirstTriangleApplication::CreateLogicDevice()

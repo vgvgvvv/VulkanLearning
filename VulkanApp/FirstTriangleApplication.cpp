@@ -28,6 +28,7 @@ void FirstTriangleApplication::InitVulkan()
 	CreateSurface();
 	PickPhysicalDevice();
 	CreateLogicDevice();
+	CreateSwapChain();
 }
 
 void FirstTriangleApplication::MainLoop()
@@ -40,6 +41,8 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
+	vkDestroySwapchainKHR(device, swapChain, nullptr);
+	
 	vkDestroyDevice(device, nullptr);
 	
 	if(enableValidationLayers)

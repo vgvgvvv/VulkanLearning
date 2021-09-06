@@ -72,6 +72,25 @@ private:
 
 private:
 
+	// 检查扩展支持
 	bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
-	static const std::vector<const char*> deviceExtensions;
+	// 查找SwapChain支持
+	class SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
+	// 选择可用的Surface格式
+	VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+	// 选择可用显示模式
+	VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+	// 选择交换范围
+	VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+
+	// 创建交换链
+	void CreateSwapChain();
+	// 交换链
+	VkSwapchainKHR swapChain;
+	// 交换链图像
+	std::vector<VkImage> swapChainImages;
+	// 交换链格式
+	VkFormat swapChainImageFormat;
+	// 交换链大小
+	VkExtent2D swapChainExtent;
 };

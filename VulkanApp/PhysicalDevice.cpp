@@ -2,6 +2,7 @@
 
 #include "FirstTriangleApplication.h"
 #include "QueueFamily.h"
+#include "SwapChain.h"
 #include "vulkan/vulkan.h"
 
 
@@ -53,8 +54,16 @@ bool FirstTriangleApplication::IsDeviceSuitable(VkPhysicalDevice device)
 	auto family = FindQueueFamilies(device);
 
 	bool extensionSupport = CheckDeviceExtensionSupport(device);
+
+	bool swapChainAdequate = false;
+	if(extensionSupport)
+	{
+		SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(device);
+		swapChainAdequate = !swapChainSupport.formats.empty() && 
+			!swapChainSupport.presentModes.empty();
+	}
 	
-	return family.IsComplete() && extensionSupport;
+	return family.IsComplete() && extensionSupport && swapChainAdequate;
 }
 
 // 获取用于物理设备的队列
