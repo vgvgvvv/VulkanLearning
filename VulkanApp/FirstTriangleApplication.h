@@ -93,4 +93,11 @@ private:
 	VkFormat swapChainImageFormat;
 	// 交换链大小
 	VkExtent2D swapChainExtent;
+
+private:
+	// 创建图像视图
+	void CreateImageViews();
+
+	std::vector<VkImageView> swapChainImageViews;
+	
 };
