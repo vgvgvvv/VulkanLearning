@@ -51,7 +51,10 @@ bool FirstTriangleApplication::IsDeviceSuitable(VkPhysicalDevice device)
 	// 	deviceFeatures.geometryShader;
 
 	auto family = FindQueueFamilies(device);
-	return family.IsComplete();
+
+	bool extensionSupport = CheckDeviceExtensionSupport(device);
+	
+	return family.IsComplete() && extensionSupport;
 }
 
 // 获取用于物理设备的队列

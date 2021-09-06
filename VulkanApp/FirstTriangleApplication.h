@@ -69,4 +69,9 @@ private:
 
 	VkSurfaceKHR surface; // 窗口Surface
 	VkQueue presentQueue; // 显示队列
+
+private:
+
+	bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
+	static const std::vector<const char*> deviceExtensions;
 };

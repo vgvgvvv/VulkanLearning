@@ -42,7 +42,10 @@ void FirstTriangleApplication::CreateLogicDevice()
 	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 
 	createInfo.pEnabledFeatures = &deviceFeatures;
-	createInfo.enabledExtensionCount = 0;
+	
+	// 支持的扩展数量
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 	
 	// 新的Vulkan已经忽略了设备层的校验层，但是我们已经对老版本Vulkan进行兼容
 	if (enableValidationLayers)
