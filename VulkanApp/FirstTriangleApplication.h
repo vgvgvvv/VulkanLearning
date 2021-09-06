@@ -99,5 +99,8 @@ private:
 	void CreateImageViews();
 
 	std::vector<VkImageView> swapChainImageViews;
+
+private:
+	void CreateGraphicsPipeline();
 	
 };
