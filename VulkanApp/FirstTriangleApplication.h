@@ -101,6 +101,8 @@ private:
 	std::vector<VkImageView> swapChainImageViews;
 
 private:
+	// 创建图形管线
 	void CreateGraphicsPipeline();
-	
+	// 创建shader模块
+	VkShaderModule CreateShaderModule(const std::vector<char>& code);
 };
