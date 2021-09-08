@@ -53,7 +53,9 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
-	// 清理管线布局
+	// 清理图形管线
+	vkDestroyPipeline(device, graphicsPipeline, nullptr);
+;	// 清理管线布局
 	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 	// 清理RenderPass
 	vkDestroyRenderPass(device, renderPass, nullptr);

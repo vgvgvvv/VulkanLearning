@@ -106,10 +106,13 @@ private:
 	// 创建shader模块
 	VkShaderModule CreateShaderModule(const std::vector<char>& code);
 
+	// 图形管线
+	VkPipeline graphicsPipeline;
 	VkPipelineLayout pipelineLayout;
 
 private:
 	void CreateRenderPass();
 
 	VkRenderPass renderPass;
+
 };

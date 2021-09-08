@@ -53,8 +53,6 @@ void FirstTriangleApplication::CreateGraphicsPipeline()
 
     VkPipelineShaderStageCreateInfo shaderStages[] = { vertexShaderStageInfo, fragmentShaderStageInfo };
 	
-    vkDestroyShaderModule(device, vertexShaderModule, nullptr);
-    vkDestroyShaderModule(device, fragmentShaderModule, nullptr);
 
     //------------------------------------------------------------------------
 	// 固定管线阶段
@@ -114,7 +112,7 @@ void FirstTriangleApplication::CreateGraphicsPipeline()
     viewportState.pScissors = &scissor;
 	
     // 光栅化器
-    VkPipelineRasterizationStateCreateInfo rasterizer;
+    VkPipelineRasterizationStateCreateInfo rasterizer{};
     rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 	// 深度裁剪，如果小于近平面或者大于远平面则裁剪
     rasterizer.depthClampEnable = VK_FALSE;
@@ -157,7 +155,7 @@ void FirstTriangleApplication::CreateGraphicsPipeline()
 	// 2. 使用按位运算组合旧值和新值
 
 	// 每个附加缓冲区的配置
-    VkPipelineColorBlendAttachmentState colorBlendAttachment;
+    VkPipelineColorBlendAttachmentState colorBlendAttachment{};
     colorBlendAttachment.colorWriteMask = 
         VK_COLOR_COMPONENT_R_BIT | 
         VK_COLOR_COMPONENT_G_BIT | 
@@ -222,4 +220,37 @@ void FirstTriangleApplication::CreateGraphicsPipeline()
 	{
         throw std::runtime_error("failed to create pipeline layout");
 	}
+
+    VkGraphicsPipelineCreateInfo pipelineInfo{};
+    pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    pipelineInfo.stageCount = 2;
+    pipelineInfo.pStages = shaderStages;
+
+	// 设置各个阶段
+    pipelineInfo.pVertexInputState = &vertexInputInfo;
+    pipelineInfo.pInputAssemblyState = &inputAssembly;
+    pipelineInfo.pViewportState = &viewportState;
+    pipelineInfo.pRasterizationState = &rasterizer;
+    pipelineInfo.pMultisampleState = &multisampling;
+    // pipelineInfo.pDepthStencilState = nullptr;
+    pipelineInfo.pColorBlendState = &colorBlending;
+    // pipelineInfo.pDynamicState = nullptr;
+
+    pipelineInfo.layout = pipelineLayout;
+
+    pipelineInfo.renderPass = renderPass;
+    pipelineInfo.subpass = 0;
+
+	// 利用现有管线派生新的管线
+    pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+    // pipelineInfo.basePipelineIndex = -1;
+
+    if(vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create graphics pipeline!");
+    }
+
+    // 销毁shader module
+    vkDestroyShaderModule(device, fragmentShaderModule, nullptr);
+    vkDestroyShaderModule(device, vertexShaderModule, nullptr);
 }
