@@ -37,6 +37,8 @@ void FirstTriangleApplication::InitVulkan()
 	CreateSwapChain();
 	// 创建ImageView
 	CreateImageViews();
+	// 创建RenderPass
+	CreateRenderPass();
 	// 创建图形管线
 	CreateGraphicsPipeline();
 }
@@ -51,7 +53,10 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
+	// 清理管线布局
 	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+	// 清理RenderPass
+	vkDestroyRenderPass(device, renderPass, nullptr);
 	
 	// 清理Image View
 	for (auto imageView : swapChainImageViews) {

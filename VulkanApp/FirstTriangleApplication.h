@@ -108,4 +108,8 @@ private:
 
 	VkPipelineLayout pipelineLayout;
 
+private:
+	void CreateRenderPass();
+
+	VkRenderPass renderPass;
 };
