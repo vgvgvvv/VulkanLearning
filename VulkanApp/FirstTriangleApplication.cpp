@@ -43,6 +43,8 @@ void FirstTriangleApplication::InitVulkan()
 	CreateGraphicsPipeline();
 	// 创建FrameBuffer
 	CreateFrameBuffers();
+	// 创建信号量用于同步交换链操作
+	CreateSemaphores();
 }
 
 void FirstTriangleApplication::MainLoop()
@@ -50,11 +52,16 @@ void FirstTriangleApplication::MainLoop()
 	while(!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
+		DrawFrame();
 	}
 }
 
 void FirstTriangleApplication::CleanUp()
 {
+	// 清除信号量
+	vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
+	vkDestroySemaphore(device, renderFinishedSemaphore, nullptr);
+	
 	// 销毁CommandPool
 	vkDestroyCommandPool(device, commandPool, nullptr);
 

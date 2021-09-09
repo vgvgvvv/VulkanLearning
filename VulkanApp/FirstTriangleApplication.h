@@ -130,4 +130,12 @@ private:
 	void CreateCommandBuffer();
 	// commandBuffer可以自动释放
 	std::vector<VkCommandBuffer> commandBuffers;
+
+private:
+	// 绘制一帧
+	void DrawFrame();
+	// 创建信号量
+	VkSemaphore imageAvailableSemaphore;
+	VkSemaphore renderFinishedSemaphore;
+	void CreateSemaphores();
 };
