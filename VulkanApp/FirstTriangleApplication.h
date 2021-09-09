@@ -111,8 +111,23 @@ private:
 	VkPipelineLayout pipelineLayout;
 
 private:
+	// 创建Render Pass
 	void CreateRenderPass();
 
 	VkRenderPass renderPass;
 
+private:
+	// 创建FrameBuffer
+	void CreateFrameBuffers();
+	std::vector<VkFramebuffer> swapChainFrameBuffers;
+
+private:
+	// 创建CommandPool
+	void CreateCommandPool();
+	// commandPool需要手动释放
+	VkCommandPool commandPool;
+	// 创建CommandBuffer
+	void CreateCommandBuffer();
+	// commandBuffer可以自动释放
+	std::vector<VkCommandBuffer> commandBuffers;
 };

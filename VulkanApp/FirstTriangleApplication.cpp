@@ -41,6 +41,8 @@ void FirstTriangleApplication::InitVulkan()
 	CreateRenderPass();
 	// 创建图形管线
 	CreateGraphicsPipeline();
+	// 创建FrameBuffer
+	CreateFrameBuffers();
 }
 
 void FirstTriangleApplication::MainLoop()
@@ -53,6 +55,15 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
+	// 销毁CommandPool
+	vkDestroyCommandPool(device, commandPool, nullptr);
+
+	// 销毁FrameBuffer
+	for(auto framebuffer : swapChainFrameBuffers)
+	{
+		vkDestroyFramebuffer(device, framebuffer, nullptr);
+	}
+	
 	// 清理图形管线
 	vkDestroyPipeline(device, graphicsPipeline, nullptr);
 ;	// 清理管线布局
