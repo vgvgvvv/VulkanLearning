@@ -26,7 +26,7 @@ void FirstTriangleApplication::DrawFrame()
 	vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
 
 	// 提交framebuffer
-	VkSubmitInfo submitInfo;
+	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
 	VkSemaphore waitSemaphores[] = { imageAvailableSemaphore };
@@ -69,6 +69,8 @@ void FirstTriangleApplication::DrawFrame()
 
 	// 将图像提交到交换链
 	vkQueuePresentKHR(presentQueue, &presentInfo);
-	
+
+	// 等待执行完成
+	vkQueueWaitIdle(presentQueue);
 }
 

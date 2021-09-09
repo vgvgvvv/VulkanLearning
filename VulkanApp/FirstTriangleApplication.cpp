@@ -43,6 +43,10 @@ void FirstTriangleApplication::InitVulkan()
 	CreateGraphicsPipeline();
 	// 创建FrameBuffer
 	CreateFrameBuffers();
+	// 创建CommandPool
+	CreateCommandPool();
+	// 创建CommandBuffer
+	CreateCommandBuffer();
 	// 创建信号量用于同步交换链操作
 	CreateSemaphores();
 }
@@ -54,6 +58,9 @@ void FirstTriangleApplication::MainLoop()
 		glfwPollEvents();
 		DrawFrame();
 	}
+
+	// 等待设备执行完毕
+	vkDeviceWaitIdle(device);
 }
 
 void FirstTriangleApplication::CleanUp()
