@@ -52,20 +52,10 @@ void FirstTriangleApplication::CreateRenderPass()
 	 * pPreserveAttachments：此子通道未使用但必须保留其数据的附件
 	 */
 
-	// Render Pass
-	VkRenderPassCreateInfo renderPassInfo{};
-	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-	// pass中的Attachment
-	renderPassInfo.attachmentCount = 1;
-	renderPassInfo.pAttachments = &colorAttachment;
-	// 指定子pass
-	renderPassInfo.subpassCount = 1;
-	renderPassInfo.pSubpasses = &subpass;
 
-	
-	// 子通道依赖
-	// 子通道会自动处理图像布局，指定了子通道之间的内存和执行依赖关系
-	// 我们现在有一个子pass，子pass的之前之后的操作也算是隐式的子pass
+	 // 子通道依赖
+	 // 子通道会自动处理图像布局，指定了子通道之间的内存和执行依赖关系
+	 // 我们现在有一个子pass，子pass的之前之后的操作也算是隐式的子pass
 	VkSubpassDependency dependency{};
 	dependency.srcSubpass = VK_SUBPASS_EXTERNAL; // 表示之前或者之后的pass的隐式表示。主要是在srcSubpass还是dstSubpass
 	dependency.dstSubpass = 0;	// 我们之前的子pass的index
@@ -75,6 +65,16 @@ void FirstTriangleApplication::CreateRenderPass()
 
 	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+	
+	// Render Pass
+	VkRenderPassCreateInfo renderPassInfo{};
+	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	// pass中的Attachment
+	renderPassInfo.attachmentCount = 1;
+	renderPassInfo.pAttachments = &colorAttachment;
+	// 指定子pass
+	renderPassInfo.subpassCount = 1;
+	renderPassInfo.pSubpasses = &subpass;
 
 	renderPassInfo.dependencyCount = 1;
 	renderPassInfo.pDependencies = &dependency;
