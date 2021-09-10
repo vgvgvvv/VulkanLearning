@@ -29,7 +29,7 @@ void FirstTriangleApplication::CreateCommandPool()
 }
 
 // CommandBuffer ¼ÇÂ¼»æÍ¼Ö¸Áî
-void FirstTriangleApplication::CreateCommandBuffer()
+void FirstTriangleApplication::CreateCommandBuffers()
 {
 	commandBuffers.resize(swapChainFrameBuffers.size());
 

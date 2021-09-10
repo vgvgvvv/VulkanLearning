@@ -11,6 +11,12 @@
 #define WIDTH	800
 #define HEIGHT	600
 
+void framebufferResizeCallback(GLFWwindow* window, int width, int height)
+{
+	// 来自glfwSetWindowUserPointer
+	auto app = reinterpret_cast<FirstTriangleApplication*>(glfwGetWindowUserPointer(window));
+	app->framebufferResized = true;
+}
 
 void FirstTriangleApplication::InitWindow()
 {
@@ -19,10 +25,16 @@ void FirstTriangleApplication::InitWindow()
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 	window = glfwCreateWindow(WIDTH, HEIGHT, "Vaulkan", nullptr, nullptr);
+	// 把自己传回去
+	glfwSetWindowUserPointer(window, this);
+	// ReSize的回调
+	glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 }
 
 void FirstTriangleApplication::InitVulkan()
 {
+	// 设备相关
+	// ---------------------
 	// 创建Vulkan实例
 	CreateInstance();
 	// 创建校验层
@@ -33,6 +45,9 @@ void FirstTriangleApplication::InitVulkan()
 	PickPhysicalDevice();
 	// 创建逻辑设备
 	CreateLogicDevice();
+
+	// 交换链
+	// ---------------------
 	// 创建交换链
 	CreateSwapChain();
 	// 创建ImageView
@@ -43,10 +58,13 @@ void FirstTriangleApplication::InitVulkan()
 	CreateGraphicsPipeline();
 	// 创建FrameBuffer
 	CreateFrameBuffers();
+
+	// 绘制指令
+	// ---------------------
 	// 创建CommandPool
 	CreateCommandPool();
 	// 创建CommandBuffer
-	CreateCommandBuffer();
+	CreateCommandBuffers();
 	// 创建信号量用于同步交换链操作
 	CreateSyncObjects();
 }
@@ -65,6 +83,8 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
+	CleanupSwapChain();
+
 	for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; i ++)
 	{
 		// 清除信号量
@@ -75,27 +95,6 @@ void FirstTriangleApplication::CleanUp()
 	
 	// 销毁CommandPool
 	vkDestroyCommandPool(device, commandPool, nullptr);
-
-	// 销毁FrameBuffer
-	for(auto framebuffer : swapChainFrameBuffers)
-	{
-		vkDestroyFramebuffer(device, framebuffer, nullptr);
-	}
-	
-	// 清理图形管线
-	vkDestroyPipeline(device, graphicsPipeline, nullptr);
-;	// 清理管线布局
-	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-	// 清理RenderPass
-	vkDestroyRenderPass(device, renderPass, nullptr);
-	
-	// 清理Image View
-	for (auto imageView : swapChainImageViews) {
-		vkDestroyImageView(device, imageView, nullptr);
-	}
-
-	// 销毁SwapChain
-	vkDestroySwapchainKHR(device, swapChain, nullptr);
 
 	// 销毁逻辑设备
 	vkDestroyDevice(device, nullptr);

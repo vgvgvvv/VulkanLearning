@@ -43,8 +43,18 @@ void FirstTriangleApplication::DrawFrame()
 	
 	uint32_t imageIndex;
 	// 从交换链获取图像
-	vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+	VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
 
+	if(result == VK_ERROR_OUT_OF_DATE_KHR)
+	{
+		framebufferResized = true;
+		ReCreateSwapChain();
+		return;
+	}else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
+	{
+		throw std::runtime_error("failed to acquire swap chain image!");
+	}
+	
 	// 检查上一帧是否使用的这个图片
 	if(imagesInFlight[imageIndex] != VK_NULL_HANDLE)
 	{
@@ -97,8 +107,17 @@ void FirstTriangleApplication::DrawFrame()
 	presentInfo.pResults = nullptr;
 
 	// 将图像提交到交换链
-	vkQueuePresentKHR(presentQueue, &presentInfo);
+	result = vkQueuePresentKHR(presentQueue, &presentInfo);
 
+	if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
+	{
+		framebufferResized = true;
+		ReCreateSwapChain();
+	} else if(result != VK_SUCCESS)
+	{
+		throw std::runtime_error("failed to present swap chain image !");
+	}
+	
 	// 等待执行完成
 	vkQueueWaitIdle(presentQueue);
 

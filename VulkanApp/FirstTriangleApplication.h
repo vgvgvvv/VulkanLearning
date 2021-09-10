@@ -128,7 +128,7 @@ private:
 	// commandPool需要手动释放
 	VkCommandPool commandPool;
 	// 创建CommandBuffer
-	void CreateCommandBuffer();
+	void CreateCommandBuffers();
 	// commandBuffer可以自动释放
 	std::vector<VkCommandBuffer> commandBuffers;
 
@@ -143,4 +143,12 @@ private:
 	// Fence同步
 	std::vector<VkFence> inFlightFences;
 	std::vector<VkFence> imagesInFlight;
+
+private:
+	void ReCreateSwapChain();
+	void CleanupSwapChain();
+
+	bool framebufferResized = false;
+	friend void framebufferResizeCallback(class GLFWwindow* window, int width, int height);
+
 };
