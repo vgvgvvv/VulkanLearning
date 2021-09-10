@@ -48,7 +48,7 @@ void FirstTriangleApplication::InitVulkan()
 	// 创建CommandBuffer
 	CreateCommandBuffer();
 	// 创建信号量用于同步交换链操作
-	CreateSemaphores();
+	CreateSyncObjects();
 }
 
 void FirstTriangleApplication::MainLoop()
@@ -65,9 +65,13 @@ void FirstTriangleApplication::MainLoop()
 
 void FirstTriangleApplication::CleanUp()
 {
-	// 清除信号量
-	vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
-	vkDestroySemaphore(device, renderFinishedSemaphore, nullptr);
+	for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; i ++)
+	{
+		// 清除信号量
+		vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
+		vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
+		vkDestroyFence(device, inFlightFences[i], nullptr);
+	}
 	
 	// 销毁CommandPool
 	vkDestroyCommandPool(device, commandPool, nullptr);

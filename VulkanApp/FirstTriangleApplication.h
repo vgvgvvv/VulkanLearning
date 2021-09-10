@@ -3,6 +3,7 @@
 
 #include "vulkan/vulkan.h"
 
+const int MAX_FRAMES_IN_FLIGHT = 2;
 
 class FirstTriangleApplication
 {
@@ -134,8 +135,12 @@ private:
 private:
 	// 绘制一帧
 	void DrawFrame();
-	// 创建信号量
-	VkSemaphore imageAvailableSemaphore;
-	VkSemaphore renderFinishedSemaphore;
-	void CreateSemaphores();
+	// 创建信号量，用数组来处理多帧
+	std::vector<VkSemaphore> imageAvailableSemaphores;
+	std::vector<VkSemaphore> renderFinishedSemaphores;
+	void CreateSyncObjects();
+	size_t currentFrame = 0;
+	// Fence同步
+	std::vector<VkFence> inFlightFences;
+	std::vector<VkFence> imagesInFlight;
 };
