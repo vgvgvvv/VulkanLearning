@@ -28,8 +28,8 @@ void FirstTriangleApplication::CreateGraphicsPipeline()
 	// 创建可编程管线阶段
 	
 	// 读取shader
-    auto vertexShader = readFile("../../src/demos/VulkanLearning/VulkanApp/Shader/vert.spv");
-    auto fragmentShader = readFile("../../src/demos/VulkanLearning/VulkanApp/Shader/frag.spv");
+    auto vertexShader = readFile("../../../src/demos/VulkanLearning/VulkanApp/Shader/vert.spv");
+    auto fragmentShader = readFile("../../../src/demos/VulkanLearning/VulkanApp/Shader/frag.spv");
  
 	// 创建Shader Module
     VkShaderModule vertexShaderModule = CreateShaderModule(vertexShader);
