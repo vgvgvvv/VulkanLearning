@@ -1,7 +1,6 @@
 
 
 
-
 set(targetName VulkanApp)
 ReMake_AddTarget(
         TARGET_NAME ${targetName}
@@ -10,6 +9,7 @@ ReMake_AddTarget(
 )
 
 ReMake_StartUse()
+Gml_UseMsExtension(ON)
 UseGml(${targetName})
 UseGlfw(${targetName})
 UseVulkan(${targetName})
