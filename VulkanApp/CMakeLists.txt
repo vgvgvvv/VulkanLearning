@@ -1,6 +1,4 @@
 
-
-
 set(targetName VulkanApp)
 ReMake_AddTarget(
         TARGET_NAME ${targetName}
